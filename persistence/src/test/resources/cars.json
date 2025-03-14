@@ -1,0 +1,37 @@
+{
+  "cars": [
+    {
+      "make": "MAZDA",
+      "model": "CX-5",
+      "speed": 180,
+      "color": "GREEN",
+      "price": 120,
+      "components": [
+        "ABS",
+        "BLUETOOTH"
+      ]
+    },
+    {
+      "make": "BMW",
+      "model": "i5",
+      "speed": 170,
+      "color": "WHITE",
+      "price": 100,
+      "components": [
+        "ABS",
+        "SPARE TIRE"
+      ]
+    },
+    {
+      "make": "AUDI",
+      "model": "Q8",
+      "speed": 260,
+      "color": "BLACK",
+      "price": 300,
+      "components": [
+        "AIR CONDITIONING",
+        "BLUETOOTH"
+      ]
+    }
+  ]
+}
