@@ -6,7 +6,7 @@
       "speed": 180,
       "color": "GREEN",
       "price": 120,
-      "components": [
+      "compoenents": [
         "ABS",
         "BLUETOOTH"
       ]
@@ -17,7 +17,7 @@
       "speed": 170,
       "color": "WHITE",
       "price": 100,
-      "components": [
+      "equipment": [
         "ABS",
         "SPARE TIRE"
       ]
@@ -28,7 +28,7 @@
       "speed": 260,
       "color": "BLACK",
       "price": 300,
-      "components": [
+      "equipment": [
         "AIR CONDITIONING",
         "BLUETOOTH"
       ]
