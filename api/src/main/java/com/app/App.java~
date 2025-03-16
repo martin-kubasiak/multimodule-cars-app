@@ -15,6 +15,6 @@ public class App {
         var carsDataJsonDeserializer =
                 context.getBean("carsDataJsonDeserializer", CarsDataJsonDeserializer.class);
         carsDataJsonDeserializer.fromJson(filename).cars().forEach(System.out::println);
-
+        
     }
 }
