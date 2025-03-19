@@ -5,9 +5,7 @@ import com.app.data.json.deserializer.JsonDeserializer;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 
 @RequiredArgsConstructor

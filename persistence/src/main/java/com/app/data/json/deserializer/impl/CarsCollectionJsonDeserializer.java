@@ -7,8 +7,8 @@ import com.app.data.model.CarsCollection;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CarsDataJsonDeserializer extends AbstractJsonDeserializer<CarsCollection> implements JsonDeserializer<CarsCollection> {
-    public CarsDataJsonDeserializer(JsonConverter<CarsCollection> converter) {
+public class CarsCollectionJsonDeserializer extends AbstractJsonDeserializer<CarsCollection> implements JsonDeserializer<CarsCollection> {
+    public CarsCollectionJsonDeserializer(JsonConverter<CarsCollection> converter) {
         super(converter);
     }
 }
