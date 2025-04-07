@@ -9,9 +9,9 @@ public class App {
     public static void main(String[] args) {
         var context = new AnnotationConfigApplicationContext(AppBeansConfigPersistence.class);
         var filename = "cars.json";
-        var carsDataJsonDeserializer =
+        var carsCollectionJsonDeserializer =
                 context.getBean("carsCollectionJsonDeserializer", CarsCollectionJsonDeserializer.class);
-        carsDataJsonDeserializer.fromJson(filename).cars().forEach(System.out::println);
+        carsCollectionJsonDeserializer.fromJson(filename).cars().forEach(System.out::println);
 
     }
 }

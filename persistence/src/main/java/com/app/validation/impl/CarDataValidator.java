@@ -10,8 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-//@RequiredArgsConstructor
-public class CaraDataValidator implements Validator<CarData> {
+public class CarDataValidator implements Validator<CarData> {
     @Value("${validation.regex}")
     private String regex;
     @Override

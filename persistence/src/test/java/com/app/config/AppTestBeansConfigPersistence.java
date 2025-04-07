@@ -7,7 +7,7 @@ import com.app.data.json.deserializer.impl.CarsCollectionJsonDeserializer;
 import com.app.data.model.CarData;
 import com.app.data.model.CarsCollection;
 import com.app.validation.Validator;
-import com.app.validation.impl.CaraDataValidator;
+import com.app.validation.impl.CarDataValidator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +31,6 @@ public class AppTestBeansConfigPersistence {
 
     @Bean
     public Validator<CarData> validator() {
-        return new CaraDataValidator();
+        return new CarDataValidator();
     }
 }

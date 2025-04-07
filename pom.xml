@@ -27,7 +27,7 @@
         <junit.jupiter.version>5.9.3</junit.jupiter.version>
         <junit.platform.runner.version>1.9.3</junit.platform.runner.version>
         <asserj.version>3.24.2</asserj.version>
-        <mockito.version>5.4.0</mockito.version>
+        <mockito.version>5.17.0</mockito.version>
         <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
         <maven.enforcer.plugin.version>3.3.0</maven.enforcer.plugin.version>
         <maven.assembly.plugin.version>3.6.0</maven.assembly.plugin.version>
@@ -79,6 +79,16 @@
                 <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
+            <!--bytebuddy version for Mockito issue-->
+            <dependency>
+                <groupId>net.bytebuddy</groupId>
+                <artifactId>byte-buddy</artifactId>
+                <version>LATEST</version> </dependency>
+            <dependency>
+                <groupId>net.bytebuddy</groupId>
+                <artifactId>byte-buddy-agent</artifactId>
+                <version>LATEST</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
@@ -122,6 +132,15 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
         </dependency>
+        <!--bytebuddy version for Mockito issue-->
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy-agent</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -137,7 +156,6 @@
     </dependencies>
 
     <build>
-<!--        <finalName>app</finalName>-->
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -147,6 +165,7 @@
                     <configuration>
                         <compilerArgs>
                             <arg>-proc:full</arg>  <!-- Ensures annotation processing runs -->
+                            <arg>--enable-preview</arg>
                         </compilerArgs>
                         <source>${java.version}</source>
                         <target>${java.version}</target>
@@ -205,6 +224,12 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven.surefire.plugin.version}</version>
+                    <configuration>
+                        <argLine>
+                            -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
+                            -Xshare:off
+                        </argLine>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
