@@ -20,6 +20,13 @@ public class JsonFileToCarsDataProcessorImpl implements FileToCarsDataProcessor 
 
     @Override
     public List<Car> mapData(String filename) {
-        return null;
+        return carsCollectionJsonDeserializer
+                .fromJson(filename)
+                .cars()
+                .stream()
+                .filter(carData -> Validator.validate(carData, carDataValidator))
+                .map(CarData::toCar)
+                .toList();
+
     }
 }

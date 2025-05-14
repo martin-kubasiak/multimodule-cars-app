@@ -10,6 +10,7 @@ import com.app.validation.Validator;
 import lombok.AllArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -43,6 +44,7 @@ public class JsonFileToCarsDataProcessorImplTest {
     }
 
     @Test
+    @DisplayName("when cars data is deserialized correctly")
     void test1() {
         Mockito
                 .when(carsCollectionJsonDeserializer.fromJson(ArgumentMatchers.anyString()))
@@ -68,8 +70,41 @@ public class JsonFileToCarsDataProcessorImplTest {
                         )
                 );
         Assertions
-                .assertThat(carsCollectionJsonDeserializer.fromJson("cars.json").cars())
+                .assertThat(fileToCarsDataProcessor.mapData("cars.json"))
                 .hasSize(2);
+    }
+
+    @Test
+    @DisplayName("when cars data is not deserialized correctly")
+    void test2() {
+        var correctCar = new CarData(
+                "TOYOTA",
+                "A",
+                220,
+                Color.BLUE,
+                BigDecimal.TWO,
+                List.of("A", "B", "C")
+        );
+        Mockito
+                .when(carsCollectionJsonDeserializer.fromJson(ArgumentMatchers.anyString()))
+                .thenReturn(new CarsCollection(
+                                List.of(
+                                        new CarData(
+                                                "mazda",
+                                                "C",
+                                                200,
+                                                Color.BLACK,
+                                                BigDecimal.TEN,
+                                                List.of("A", "B")
+                                        ),
+                                        correctCar
+                                )
+                        )
+                );
+        Assertions
+                .assertThat(fileToCarsDataProcessor.mapData("cars.json"))
+                .hasSize(1)
+                .containsOnly(correctCar.toCar());
     }
 
 

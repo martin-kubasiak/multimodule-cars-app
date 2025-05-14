@@ -28,6 +28,7 @@
         <junit.platform.runner.version>1.9.3</junit.platform.runner.version>
         <asserj.version>3.24.2</asserj.version>
         <mockito.version>5.17.0</mockito.version>
+        <byte-buddy.version>1.17.5</byte-buddy.version>
         <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
         <maven.enforcer.plugin.version>3.3.0</maven.enforcer.plugin.version>
         <maven.assembly.plugin.version>3.6.0</maven.assembly.plugin.version>
@@ -83,11 +84,12 @@
             <dependency>
                 <groupId>net.bytebuddy</groupId>
                 <artifactId>byte-buddy</artifactId>
-                <version>LATEST</version> </dependency>
+                <version>${byte-buddy.version}</version> </dependency>
             <dependency>
                 <groupId>net.bytebuddy</groupId>
                 <artifactId>byte-buddy-agent</artifactId>
-                <version>LATEST</version>
+                <version>${byte-buddy.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
