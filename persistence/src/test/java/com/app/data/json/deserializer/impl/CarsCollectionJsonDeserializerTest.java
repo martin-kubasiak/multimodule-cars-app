@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.*;
@@ -31,4 +32,16 @@ public class CarsCollectionJsonDeserializerTest {
         var cars = jsonDeserializer.fromJson(path).cars();
         assertThat(cars).hasSize(3);
     }
+
+    @Test
+    @DisplayName("when data is not deserialized correctly, then exception is thrown")
+    void test2() {
+        var path = Paths
+                .get("src", "test", "resources", "bad-json-test-file.json")
+                .toFile()
+                .getAbsolutePath();
+        assertThatThrownBy(() -> jsonDeserializer.fromJson(path))
+                .isInstanceOf(FileNotFoundException.class);
+    }
+
 }
