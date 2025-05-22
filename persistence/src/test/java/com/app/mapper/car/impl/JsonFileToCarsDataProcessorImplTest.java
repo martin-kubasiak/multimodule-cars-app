@@ -7,7 +7,6 @@ import com.app.data.model.CarsCollection;
 import com.app.mapper.car.FileToCarsDataProcessor;
 import com.app.model.Color;
 import com.app.validation.Validator;
-import lombok.AllArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,6 +23,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 import java.util.List;
+
+import static com.app.CarsUtil.*;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 @ContextConfiguration(classes = AppTestBeansConfigPersistence.class)
@@ -48,27 +49,7 @@ public class JsonFileToCarsDataProcessorImplTest {
     void test1() {
         Mockito
                 .when(carsCollectionJsonDeserializer.fromJson(ArgumentMatchers.anyString()))
-                .thenReturn(new CarsCollection(
-                                List.of(
-                                        new CarData(
-                                                "MAZDA",
-                                                "C",
-                                                200,
-                                                Color.BLACK,
-                                                BigDecimal.TEN,
-                                                List.of("A", "B")
-                                        ),
-                                        new CarData(
-                                                "TOYOTA",
-                                                "A",
-                                                220,
-                                                Color.BLUE,
-                                                BigDecimal.TWO,
-                                                List.of("A", "B", "C")
-                                        )
-                                )
-                        )
-                );
+                .thenReturn(new CarsCollection(List.of(CAR_DATA_MAZDA, CAR_DATA_TOYOTA)));
         Assertions
                 .assertThat(fileToCarsDataProcessor.mapData("cars.json"))
                 .hasSize(2);
@@ -77,14 +58,6 @@ public class JsonFileToCarsDataProcessorImplTest {
     @Test
     @DisplayName("when cars data is not deserialized correctly")
     void test2() {
-        var correctCar = new CarData(
-                "TOYOTA",
-                "A",
-                220,
-                Color.BLUE,
-                BigDecimal.TWO,
-                List.of("A", "B", "C")
-        );
         Mockito
                 .when(carsCollectionJsonDeserializer.fromJson(ArgumentMatchers.anyString()))
                 .thenReturn(new CarsCollection(
@@ -97,14 +70,14 @@ public class JsonFileToCarsDataProcessorImplTest {
                                                 BigDecimal.TEN,
                                                 List.of("A", "B")
                                         ),
-                                        correctCar
+                                        CAR_DATA_TOYOTA
                                 )
                         )
                 );
         Assertions
                 .assertThat(fileToCarsDataProcessor.mapData("cars.json"))
                 .hasSize(1)
-                .containsOnly(correctCar.toCar());
+                .containsOnly(CAR_DATA_TOYOTA.toCar());
     }
 
 
