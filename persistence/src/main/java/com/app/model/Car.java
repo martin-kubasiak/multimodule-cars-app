@@ -11,10 +11,10 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @EqualsAndHashCode
 public class Car {
-    private final String make;
-    private final String model;
-    private final int speed;
-    private final Color color;    
-    private final BigDecimal price;
-    private final List<String> equipment;
+    final String make;
+    final String model;
+    final int speed;
+    final Color color;
+    final BigDecimal price;
+    final List<String> equipment;
 }

@@ -15,6 +15,12 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<Car> sort(Comparator<Car> carComparator) {
-        return null;
+        if (carComparator == null) {
+            throw new IllegalArgumentException("Comparator is null");
+        }
+        return cars
+                .stream()
+                .sorted(carComparator)
+                .toList();
     }
 }

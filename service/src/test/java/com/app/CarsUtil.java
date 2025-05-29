@@ -1,6 +1,7 @@
 package com.app;
 
 import com.app.data.model.CarData;
+import com.app.model.Car;
 import com.app.model.Color;
 
 import java.math.BigDecimal;
@@ -12,9 +13,11 @@ public interface CarsUtil {
             "C",
             200,
             Color.BLACK,
-            BigDecimal.TEN,
+            BigDecimal.ONE,
             List.of("A", "B")
     );
+    Car CAR_MAZDA = CAR_DATA_MAZDA.toCar();
+
     CarData CAR_DATA_TOYOTA = new CarData(
             "TOYOTA",
             "A",
@@ -23,6 +26,8 @@ public interface CarsUtil {
             BigDecimal.TWO,
             List.of("A", "B", "C")
     );
+    Car CAR_TOYOTA = CAR_DATA_TOYOTA.toCar();
+
     CarData CAR_DATA_BMW = new CarData(
             "BMW",
             "X",
@@ -31,4 +36,5 @@ public interface CarsUtil {
             BigDecimal.TEN,
             List.of("B", "C")
     );
+    Car CAR_BMW = CAR_DATA_BMW.toCar();
 }
