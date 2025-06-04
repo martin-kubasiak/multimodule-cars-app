@@ -17,4 +17,8 @@ public class Car {
     final Color color;
     final BigDecimal price;
     final List<String> equipment;
+
+    public boolean hasSpeedBetween(int speedMin, int speedMax) {
+        return speedMin <= speed && speed <= speedMax;
+    }
 }

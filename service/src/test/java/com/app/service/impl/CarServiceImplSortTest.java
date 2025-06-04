@@ -18,6 +18,8 @@ import java.util.stream.Stream;
 
 import static com.app.CarsUtil.*;
 import static com.app.model.Comparators.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 
 public class CarServiceImplSortTest {
@@ -38,7 +40,7 @@ public class CarServiceImplSortTest {
     @Test
     @DisplayName("when comparator is null")
     void test1() {
-        Assertions.assertThatThrownBy(() -> carService.sort(null))
+        assertThatThrownBy(() -> carService.sort(null))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Comparator is null");
     }
@@ -48,8 +50,7 @@ public class CarServiceImplSortTest {
     @MethodSource("comparatorsWithSortedCars")
     @DisplayName("when comparator is not null")
     void test2(Comparator<Car> carComparator, List<Car> expectedSortedCar) {
-        Assertions
-                .assertThat(carService.sort(carComparator))
+        assertThat(carService.sort(carComparator))
                 .isEqualTo(expectedSortedCar);
     }
 
