@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 
@@ -50,10 +51,22 @@ public class CarServiceImpl implements CarService {
     }
 
     /**
+     * Returns a list of all cars that match the given predicate.
+     *
+     * @param criterion the condition used to filter cars
+     * @return a list of cars that satisfy the provided criterion
+     */
+    @Override
+    public  List<Car> findAllBy(Predicate<Car> criterion) {
+        return cars.stream().filter(criterion).toList();
+    }
+
+
+    /**
      * Groups all cars using the provided classification function.
      *
      * @param carFunction the function used to classify cars into groups; must not be null
-     * @param <T> the type of the key returned by the classification function
+     * @param <T>         the type of the key returned by the classification function
      * @return a map where each key is a classification result and the value is a list of cars in that group
      */
     @Override
@@ -67,7 +80,7 @@ public class CarServiceImpl implements CarService {
      * Counts the number of cars in each group defined by the provided classification function.
      *
      * @param classifier the function used to classify cars into groups; must not be null
-     * @param <T> the type of the key returned by the classification function
+     * @param <T>        the type of the key returned by the classification function
      * @return a map where each key is a classification result and the value is the number of cars in that group
      */
     @Override
