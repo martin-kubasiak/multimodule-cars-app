@@ -17,7 +17,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 
 public class CarServiceImplGroupByAndCountByTest {
-    private static final List<Car> CARS = List.of(CAR_MAZDA, CAR_TOYOTA, CAR_BMW);
+    private static final List<Car> CARS = List.of(CAR_MAZDA, CAR_TOYOTA_1, CAR_BMW_1);
     private static final CarService carService = new CarServiceImpl(CARS);
 
     @Test
@@ -27,8 +27,8 @@ public class CarServiceImplGroupByAndCountByTest {
                 .hasSize(3)
                 .containsAllEntriesOf(Map.of(
                         Color.BLACK, List.of(CAR_MAZDA),
-                        Color.BLUE, List.of(CAR_TOYOTA),
-                        Color.GREEN, List.of(CAR_BMW)
+                        Color.BLUE, List.of(CAR_TOYOTA_1),
+                        Color.GREEN, List.of(CAR_BMW_1)
                 ));
     }
 

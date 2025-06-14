@@ -18,7 +18,7 @@ public interface CarsUtil {
     );
     Car CAR_MAZDA = CAR_DATA_MAZDA.toCar();
 
-    CarData CAR_DATA_TOYOTA = new CarData(
+    CarData CAR_DATA_TOYOTA_1 = new CarData(
             "TOYOTA",
             "A",
             220,
@@ -26,9 +26,19 @@ public interface CarsUtil {
             BigDecimal.TWO,
             List.of("A", "B", "C")
     );
-    Car CAR_TOYOTA = CAR_DATA_TOYOTA.toCar();
+    Car CAR_TOYOTA_1 = CAR_DATA_TOYOTA_1.toCar();
 
-    CarData CAR_DATA_BMW = new CarData(
+    CarData CAR_DATA_TOYOTA_2 = new CarData(
+            "TOYOTA",
+            "AA",
+            195,
+            Color.WHITE,
+            BigDecimal.TEN,
+            List.of("D", "E")
+    );
+    Car CAR_TOYOTA_2 = CAR_DATA_TOYOTA_2.toCar();
+
+    CarData CAR_DATA_BMW_1 = new CarData(
             "BMW",
             "X",
             250,
@@ -36,5 +46,15 @@ public interface CarsUtil {
             BigDecimal.TEN,
             List.of("B", "C")
     );
-    Car CAR_BMW = CAR_DATA_BMW.toCar();
+    Car CAR_BMW_1 = CAR_DATA_BMW_1.toCar();
+
+    CarData CAR_DATA_BMW_2 = new CarData(
+            "BMW",
+            "XX",
+            235,
+            Color.BLACK,
+            BigDecimal.ONE,
+            List.of("C", "D")
+    );
+    Car CAR_BMW_2 = CAR_DATA_BMW_2.toCar();
 }

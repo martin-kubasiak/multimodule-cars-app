@@ -2,6 +2,7 @@ package com.app.service.impl;
 
 import com.app.model.Car;
 import com.app.service.CarService;
+import com.app.util.MinMax;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -57,10 +58,9 @@ public class CarServiceImpl implements CarService {
      * @return a list of cars that satisfy the provided criterion
      */
     @Override
-    public  List<Car> findAllBy(Predicate<Car> criterion) {
+    public List<Car> findAllBy(Predicate<Car> criterion) {
         return cars.stream().filter(criterion).toList();
     }
-
 
     /**
      * Groups all cars using the provided classification function.
@@ -88,6 +88,34 @@ public class CarServiceImpl implements CarService {
         return cars
                 .stream()
                 .collect(Collectors.groupingBy(classifier, Collectors.counting()));
+    }
+
+    @Override
+    public <T> Map<T, MinMax<Car>> groupAndFindMinMaxByCriterion(Function<Car, T> groupingFunction, Comparator<Car> carComparator) {
+        if (groupingFunction == null) {
+            throw new IllegalArgumentException("Grouping function is null");
+        }
+        if (carComparator == null) {
+            throw new IllegalArgumentException("Comparator function is null");
+        }
+        return cars
+                .stream()
+                .collect(Collectors.groupingBy(
+                        groupingFunction,
+                        Collectors.collectingAndThen(
+                                Collectors.toList(),
+                                groupedCars -> {
+                                    var minCar = groupedCars
+                                            .stream()
+                                            .min(carComparator)
+                                            .orElseThrow();
+                                    var maxCar = groupedCars
+                                            .stream()
+                                            .max(carComparator)
+                                            .orElseThrow();
+                                    return new MinMax<>(minCar, maxCar);
+                                })
+                ));
     }
 
 }

@@ -17,7 +17,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 
 public class CarServiceImplFindAllBySpeedBetweenTest {
-    private static final List<Car> CARS = List.of(CAR_MAZDA, CAR_TOYOTA, CAR_BMW);
+    private static final List<Car> CARS = List.of(CAR_MAZDA, CAR_TOYOTA_1, CAR_BMW_1);
     private static final CarService carService = new CarServiceImpl(CARS);
 
     private static Stream<Arguments> speedRangesWithCars() {
@@ -25,9 +25,9 @@ public class CarServiceImplFindAllBySpeedBetweenTest {
                 Arguments.of(100, 190, List.of()),
                 Arguments.of(200, 200, List.of(CAR_MAZDA)),
                 Arguments.of(200, 210, List.of(CAR_MAZDA)),
-                Arguments.of(200, 220, List.of(CAR_MAZDA, CAR_TOYOTA)),
-                Arguments.of(200, 250, List.of(CAR_MAZDA, CAR_TOYOTA, CAR_BMW)),
-                Arguments.of(250, 260, List.of(CAR_BMW)),
+                Arguments.of(200, 220, List.of(CAR_MAZDA, CAR_TOYOTA_1)),
+                Arguments.of(200, 250, List.of(CAR_MAZDA, CAR_TOYOTA_1, CAR_BMW_1)),
+                Arguments.of(250, 260, List.of(CAR_BMW_1)),
                 Arguments.of(260, 300, List.of())
         );
     }

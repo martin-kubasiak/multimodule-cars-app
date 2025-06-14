@@ -1,6 +1,7 @@
 package com.app.service;
 
 import com.app.model.Car;
+import com.app.util.MinMax;
 
 import java.util.Comparator;
 import java.util.List;
@@ -19,4 +20,5 @@ public interface CarService {
 
     <T> Map<T, Long> countBy(Function<Car, T> classifier);
 
+    <T> Map<T, MinMax<Car>> groupAndFindMinMaxByCriterion(Function<Car, T> groupingFunction, Comparator<Car> carComparator);
 }
