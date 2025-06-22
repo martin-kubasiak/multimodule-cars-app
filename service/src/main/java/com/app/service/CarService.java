@@ -20,5 +20,8 @@ public interface CarService {
 
     <T> Map<T, Long> countBy(Function<Car, T> classifier);
 
-    <T> Map<T, MinMax<Car>> groupAndFindMinMaxByCriterion(Function<Car, T> groupingFunction, Comparator<Car> carComparator);
+    <T> Map<T, MinMax<Car>> groupAndFindMinMaxByCriteria(Function<Car, T> groupingFunction, Comparator<Car> carComparator);
+
+    <T, U> Map<T, MinMax<List<Car>>> groupAndFindMinMaxByCriteria(
+            Function<Car, T> groupingFunction, Function<Car, U> minMaxGroupingFunction, Comparator<U> minMaxComparator);
 }

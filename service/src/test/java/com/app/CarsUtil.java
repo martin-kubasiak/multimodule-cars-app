@@ -31,12 +31,22 @@ public interface CarsUtil {
     CarData CAR_DATA_TOYOTA_2 = new CarData(
             "TOYOTA",
             "AA",
-            195,
+            205,
             Color.WHITE,
             BigDecimal.TEN,
             List.of("D", "E")
     );
     Car CAR_TOYOTA_2 = CAR_DATA_TOYOTA_2.toCar();
+
+    CarData CAR_DATA_TOYOTA_3 = new CarData(
+            "TOYOTA",
+            "AAT",
+            205,
+            Color.WHITE,
+            BigDecimal.TEN,
+            List.of("D", "E")
+    );
+    Car CAR_TOYOTA_3 = CAR_DATA_TOYOTA_3.toCar();
 
     CarData CAR_DATA_BMW_1 = new CarData(
             "BMW",

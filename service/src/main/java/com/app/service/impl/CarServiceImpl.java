@@ -90,8 +90,18 @@ public class CarServiceImpl implements CarService {
                 .collect(Collectors.groupingBy(classifier, Collectors.counting()));
     }
 
+    /**
+     * Groups a collection of {@link Car} objects by a specified criterion and determines
+     * the minimum and maximum {@link Car} in each group using the provided comparator.
+     *
+     * @param <T>              the type of the grouping key (e.g. make, color, etc.)
+     * @param groupingFunction a function that extracts the grouping key from a {@link Car}; must not be null
+     * @param carComparator    a comparator used to find the minimum and maximum cars within each group; must not be null
+     * @return a map where each key is a group and the value is a {@link MinMax} containing the minimum and maximum car
+     * @throws IllegalArgumentException if groupingFunction or carComparator is null
+     */
     @Override
-    public <T> Map<T, MinMax<Car>> groupAndFindMinMaxByCriterion(Function<Car, T> groupingFunction, Comparator<Car> carComparator) {
+    public <T> Map<T, MinMax<Car>> groupAndFindMinMaxByCriteria(Function<Car, T> groupingFunction, Comparator<Car> carComparator) {
         if (groupingFunction == null) {
             throw new IllegalArgumentException("Grouping function is null");
         }
@@ -115,6 +125,67 @@ public class CarServiceImpl implements CarService {
                                             .orElseThrow();
                                     return new MinMax<>(minCar, maxCar);
                                 })
+                ));
+    }
+
+    /**
+     *
+     * @param groupingFunction
+     * @param minMaxGroupingFunction
+     * @param minMaxComparator
+     * @return
+     * @param <T>
+     * @param <U>
+     */
+    /**
+     * Groups a collection of {@link Car} objects using a primary grouping criterion, and for each group,
+     * determines the subgroups (based on a secondary criterion) with the minimum and maximum keys, using
+     * a provided comparator. Returns the corresponding lists of cars for those min and max subgroups.
+     *
+     * @param <T>                    the type of the grouping key (e.g. make, color, etc.)
+     * @param <U>                    the type of the secondary key used for min/max evaluation (e.g., price)
+     * @param groupingFunction       a function that extracts the grouping key from a {@link Car}; must not be null
+     * @param minMaxGroupingFunction a function used to create subgroups within each primary group; must not be null
+     * @param minMaxComparator       a comparator used to find the minimum and maximum keys among the subgroups; must not be null
+     * @return a map where each key represents a group of cars, and the value is a {@link MinMax}
+     * containing the lists of cars from the min and max subgroups
+     * @throws java.util.NoSuchElementException if a group is unexpectedly empty
+     */
+    @Override
+    public <T, U> Map<T, MinMax<List<Car>>> groupAndFindMinMaxByCriteria(
+            Function<Car, T> groupingFunction, Function<Car, U> minMaxGroupingFunction, Comparator<U> minMaxComparator) {
+        if (groupingFunction == null) {
+            throw new IllegalArgumentException("Grouping function is null");
+        }
+        if (minMaxGroupingFunction == null) {
+            throw new IllegalArgumentException("Min max grouping function is null");
+        }
+        if (minMaxComparator == null) {
+            throw new IllegalArgumentException("Comparator function is null");
+        }
+
+        return cars
+                .stream()
+                .collect(Collectors.groupingBy(
+                        groupingFunction,
+                        Collectors.collectingAndThen(
+                                Collectors.groupingBy(minMaxGroupingFunction),
+                                groupedWithMinMaxFnCars -> {
+                                    var minKey = groupedWithMinMaxFnCars
+                                            .keySet()
+                                            .stream()
+                                            .min(minMaxComparator)
+                                            .orElseThrow();
+                                    var maxKey = groupedWithMinMaxFnCars
+                                            .keySet()
+                                            .stream()
+                                            .max(minMaxComparator)
+                                            .orElseThrow();
+                                    var minKeyValue = groupedWithMinMaxFnCars.get(minKey);
+                                    var maxKeyValue = groupedWithMinMaxFnCars.get(maxKey);
+                                    return new MinMax<>(minKeyValue, maxKeyValue);
+                                }
+                        )
                 ));
     }
 
