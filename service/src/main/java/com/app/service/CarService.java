@@ -2,6 +2,7 @@ package com.app.service;
 
 import com.app.model.Car;
 import com.app.util.MinMax;
+import com.app.util.Statistics;
 
 import java.util.Comparator;
 import java.util.List;
@@ -24,4 +25,6 @@ public interface CarService {
 
     <T, U> Map<T, MinMax<List<Car>>> groupAndFindMinMaxByCriteria(
             Function<Car, T> groupingFunction, Function<Car, U> minMaxGroupingFunction, Comparator<U> minMaxComparator);
+
+    <T extends Comparable<T>> Statistics<T> getStatistics(Function<Car, T> keyExtractor);
 }

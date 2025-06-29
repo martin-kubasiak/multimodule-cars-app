@@ -1,17 +1,24 @@
 package com.app.service.impl;
 
 import com.app.model.Car;
+import com.app.model.Color;
 import com.app.service.CarService;
 import com.app.util.MinMax;
+import com.app.util.Statistics;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Service
@@ -187,6 +194,60 @@ public class CarServiceImpl implements CarService {
                                 }
                         )
                 ));
+    }
+
+    /**
+     * Calculates simple descriptive statistics—minimum, maximum and, where possible, average—
+     * for the values obtained from each {@link Car} in the current collection using the supplied
+     * keyExtractor.
+     *
+     * @param <T>          the type produced by the extractor; must be comparable and
+     *                     optionally numeric for the average to be computed
+     * @param keyExtractor a function that maps a {@link Car} to a comparable key; must not be null
+     * @return a {@link Statistics} instance whose min and max contain the
+     *         boundary values, and whose avg}contains the average for numeric keys
+     *         or null otherwise
+     * @throws IllegalArgumentException if keyExtractor is null
+     */
+    @Override
+    public <T extends Comparable<T>> Statistics<T> getStatistics(Function<Car, T> keyExtractor) {
+        if (keyExtractor == null) {
+            throw new IllegalArgumentException("KeyExtractor is null");
+        }
+
+        T min = cars
+                .stream()
+                .map(keyExtractor)
+                .min(Comparator.naturalOrder())
+                .orElse(null);
+
+        T max = cars
+                .stream()
+                .map(keyExtractor)
+                .max(Comparator.naturalOrder())
+                .orElse(null);
+
+        var bigDecimals = cars
+                .stream()
+                .map(keyExtractor)
+                .filter(val -> val instanceof Number)
+                .map(val -> {
+                    if (val instanceof BigDecimal bigDecimal) {
+                        return bigDecimal;
+                    }
+                    return new BigDecimal(val.toString());
+                })
+                .toList();
+
+        BigDecimal avg = null;
+        if (!bigDecimals.isEmpty()) {
+            avg = bigDecimals
+                    .stream()
+                    .reduce(BigDecimal.ZERO, BigDecimal::add)
+                    .divide(BigDecimal.valueOf(bigDecimals.size()), 0, RoundingMode.HALF_UP);
+        }
+
+        return new Statistics<>(min, max, avg);
     }
 
 }
