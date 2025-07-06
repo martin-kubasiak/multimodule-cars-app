@@ -205,8 +205,8 @@ public class CarServiceImpl implements CarService {
      *                     optionally numeric for the average to be computed
      * @param keyExtractor a function that maps a {@link Car} to a comparable key; must not be null
      * @return a {@link Statistics} instance whose min and max contain the
-     *         boundary values, and whose avg}contains the average for numeric keys
-     *         or null otherwise
+     * boundary values, and whose avg}contains the average for numeric keys
+     * or null otherwise
      * @throws IllegalArgumentException if keyExtractor is null
      */
     @Override
@@ -248,6 +248,26 @@ public class CarServiceImpl implements CarService {
         }
 
         return new Statistics<>(min, max, avg);
+    }
+
+    /**
+     * Returns a new list of {@link Car} objects with their equipment lists sorted
+     * according to the provided quipmentComparator.
+     *
+     * @param equipmentComparator a comparator used to sort the equipment strings for each car;
+     *                            must not be null
+     * @return a list of {@link Car} objects with sorted equipment lists
+     * @throws IllegalArgumentException if equipmentComparator is null
+     */
+    @Override
+    public List<Car> sortEquipment(Comparator<String> equipmentComparator) {
+        if (equipmentComparator == null) {
+            throw new IllegalArgumentException("Comparator is null");
+        }
+        return cars
+                .stream()
+                .map(car -> car.withSortedEquipment(equipmentComparator))
+                .toList();
     }
 
 }

@@ -27,4 +27,6 @@ public interface CarService {
             Function<Car, T> groupingFunction, Function<Car, U> minMaxGroupingFunction, Comparator<U> minMaxComparator);
 
     <T extends Comparable<T>> Statistics<T> getStatistics(Function<Car, T> keyExtractor);
+
+    List<Car> sortEquipment(Comparator<String> equipmentComparator);
 }
