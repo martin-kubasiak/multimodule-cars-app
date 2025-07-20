@@ -32,7 +32,7 @@ public class CarServiceImplSortEquipmentTest {
         var expectedCars = List.of(
                 CAR_MAZDA.withSortedEquipment(comparator),
                 CAR_TOYOTA_1.withSortedEquipment(comparator)
-        );
+                );
 
         assertThat(carService.sortEquipment(comparator))
                 .isEqualTo(expectedCars);

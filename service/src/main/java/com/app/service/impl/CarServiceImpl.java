@@ -2,6 +2,7 @@ package com.app.service.impl;
 
 import com.app.model.Car;
 import com.app.model.Color;
+import com.app.model.Mappers;
 import com.app.service.CarService;
 import com.app.util.MinMax;
 import com.app.util.Statistics;
@@ -10,15 +11,12 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.*;
+import java.util.function.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static com.app.model.Mappers.*;
 
 
 @Service
@@ -268,6 +266,48 @@ public class CarServiceImpl implements CarService {
                 .stream()
                 .map(car -> car.withSortedEquipment(equipmentComparator))
                 .toList();
+    }
+
+    /**
+     * Groups all {@link Car} objects by each individual equipment component they have,
+     * and returns a map where the key is the equipment component name and the value is
+     * a list of cars that contain that equipment. The resulting map is sorted based on
+     * the provided comparator for the car lists.
+     *
+     * @param carsComparator a comparator used to sort equipment groups based on their associated list of cars;
+     *                       must not be null
+     * @return a sorted {@link Map} where each key is an equipment component name, and the value is a list
+     *         of {@link Car} objects that have that component
+     * @throws IllegalArgumentException if carsComparator is null
+     */
+    @Override
+    public Map<String, List<Car>> groupByEquipmentComponent(Comparator<List<Car>> carsComparator) {
+        if (carsComparator == null) {
+            throw new IllegalArgumentException("Comparator is null");
+        }
+
+        return cars
+                .stream()
+                .<AbstractMap.SimpleEntry<String, Car>>mapMulti((car, consumer) -> {
+                            var eq = toEquipmentMapper.apply(car);
+                            eq.forEach(equipment ->
+                                    consumer.accept(new AbstractMap.SimpleEntry<>(equipment, car))
+                            );
+                        }
+                )
+                .collect(Collectors.groupingBy(
+                        Map.Entry::getKey,
+                        Collectors.mapping(Map.Entry::getValue, Collectors.toList()))
+                )
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(carsComparator))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (cars1, _) -> cars1,
+                        LinkedHashMap::new)
+                );
     }
 
 }

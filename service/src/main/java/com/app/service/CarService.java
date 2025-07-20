@@ -29,4 +29,6 @@ public interface CarService {
     <T extends Comparable<T>> Statistics<T> getStatistics(Function<Car, T> keyExtractor);
 
     List<Car> sortEquipment(Comparator<String> equipmentComparator);
+
+    Map<String, List<Car>> groupByEquipmentComponent(Comparator<List<Car>> carsComparator);
 }
