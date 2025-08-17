@@ -14,6 +14,7 @@ import java.math.RoundingMode;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static com.app.model.Mappers.*;
@@ -277,7 +278,7 @@ public class CarServiceImpl implements CarService {
      * @param carsComparator a comparator used to sort equipment groups based on their associated list of cars;
      *                       must not be null
      * @return a sorted {@link Map} where each key is an equipment component name, and the value is a list
-     *         of {@link Car} objects that have that component
+     * of {@link Car} objects that have that component
      * @throws IllegalArgumentException if carsComparator is null
      */
     @Override
@@ -308,6 +309,32 @@ public class CarServiceImpl implements CarService {
                         (cars1, _) -> cars1,
                         LinkedHashMap::new)
                 );
+    }
+
+    /**
+     * Finds all {@link Car} objects from the current collection that are closest to a specified criterion
+     * defined by the given carComparator.
+     *
+     * @param carComparator a comparator defining the criterion by which cars are compared;
+     *                      must not be {@code null}
+     * @return a list of {@link Car} objects that are equal to the minimum car according to the comparator
+     * @throws IllegalArgumentException if carComparator is null
+     * @throws IllegalStateException if no car can be found (e.g., the collection is empty)
+     */
+    @Override
+    public List<Car> findCarsByCriteria(Comparator<Car> carComparator) {
+        if (carComparator == null) {
+            throw new IllegalArgumentException("Comparator is null");
+        }
+        var carMin = cars
+                .stream()
+                .min(carComparator)
+                .orElseThrow(() -> new IllegalStateException("Cannot find car by given criterion"));
+
+        return cars
+                .stream()
+                .filter(car -> carComparator.compare(car, carMin) == 0)
+                .toList();
     }
 
 }
