@@ -19,22 +19,21 @@
 
     <properties>
         <revision>1.0-SNAPSHOT</revision>
-        <java.version>23</java.version>
+        <java.version>25</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <lombok.version>1.18.36</lombok.version>
+        <lombok.version>1.18.46</lombok.version>
         <gson.version>2.10.1</gson.version>
         <junit.jupiter.version>5.9.3</junit.jupiter.version>
-        <junit.platform.runner.version>1.9.3</junit.platform.runner.version>
         <asserj.version>3.24.2</asserj.version>
-        <mockito.version>5.17.0</mockito.version>
+        <mockito.version>5.19.0</mockito.version>
         <byte-buddy.version>1.17.5</byte-buddy.version>
         <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
         <maven.enforcer.plugin.version>3.3.0</maven.enforcer.plugin.version>
         <maven.assembly.plugin.version>3.6.0</maven.assembly.plugin.version>
-        <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
-        <jacoco.version>0.8.12</jacoco.version>
+        <maven.surefire.plugin.version>3.5.6</maven.surefire.plugin.version>
+        <jacoco.version>0.8.14</jacoco.version>
         <spring.version>6.1.14</spring.version>
     </properties>
 
@@ -55,12 +54,6 @@
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
                 <version>${junit.jupiter.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.platform</groupId>
-                <artifactId>junit-platform-runner</artifactId>
-                <version>${junit.platform.runner.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -120,10 +113,6 @@
             <artifactId>junit-jupiter</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-runner</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
         </dependency>
@@ -167,11 +156,17 @@
                     <version>${maven.compiler.plugin.version}</version>
                     <configuration>
                         <compilerArgs>
-                            <arg>-proc:full</arg>  <!-- Ensures annotation processing runs -->
-                            <arg>--enable-preview</arg>
+                            <arg>-proc:full</arg>
                         </compilerArgs>
                         <source>${java.version}</source>
                         <target>${java.version}</target>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -187,7 +182,7 @@
                             <configuration>
                                 <rules>
                                     <requireJavaVersion>
-                                        <version>[23,)</version>
+                                        <version>[25,)</version>
                                         <message>Bad version</message>
                                     </requireJavaVersion>
                                     <requireMavenVersion>
@@ -223,7 +218,6 @@
                         </execution>
                     </executions>
                 </plugin>
-
             </plugins>
         </pluginManagement>
 
